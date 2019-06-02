@@ -1,0 +1,72 @@
+object Roadies {
+
+  def checkContain (main_str:String, sub_str:String): Boolean ={
+
+    val digits = main_str.length
+    var flag_contain :Boolean = false
+
+    for (n <- 0 until digits ) {
+      if (sub_str.contains(main_str(n))) {
+        flag_contain = true
+      }
+    }
+
+    flag_contain
+  }
+
+  def main ( args: Array[String] ): Unit = {
+
+    import scala.util.control.Breaks._
+
+    var records: Int = 0
+    records = scala.io.StdIn.readLine().toInt
+
+    val test_case = new Array[String](records * 2)
+
+    var record_ins_cnt: Int = 0
+
+    for (i <- 1 to records) {
+      test_case(record_ins_cnt) = scala.io.StdIn.readLine()
+      record_ins_cnt += 1
+      test_case(record_ins_cnt) = scala.io.StdIn.readLine()
+      record_ins_cnt += 1
+    }
+
+    var j = 0
+    var columns: Int = 0
+
+
+    while (j < record_ins_cnt) {
+      columns = test_case(j).toInt
+      j += 1
+      var box_nums = test_case(j).split(" +").sorted.reverse
+      j += 1
+      //box_nums.foreach(print(_))
+      //println()
+
+      var main_str: String =""
+      var str:String =""
+      var digits = 0
+      var max_sum = 0
+      var sum = 0
+      var box_len = box_nums.length
+      for ( i <- 0 until box_len ){
+        main_str = box_nums(i)
+        sum = main_str.toInt
+        for (m <- i+1 until (box_len)) {
+          str = box_nums(m)
+          //println(main_str+" "+str)
+          if ( ! checkContain(main_str, str)) {
+            //println("Main :" + main_str + " Doesnt contains :" + str)
+            sum += str.toInt
+            main_str += str
+          }
+        }
+        //println("Sums:"+sum)
+        if ( sum > max_sum){ max_sum = sum}
+      }
+
+      println(max_sum)
+    }
+  }
+}
